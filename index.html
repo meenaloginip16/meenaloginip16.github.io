@@ -6,800 +6,338 @@
 <title>SIP Abacus Question Paper</title>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Fredoka+One&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --navy:   #1a237e;
-    --blue:   #1565c0;
-    --sky:    #e3f2fd;
-    --gold:   #f9a825;
-    --light:  #f5f7ff;
-    --white:  #ffffff;
-    --red:    #e53935;
-    --green:  #2e7d32;
-    --border: #bbdefb;
-    --shadow: rgba(21,101,192,0.13);
-  }
-
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    font-family: 'Baloo 2', cursive;
-    background: var(--light);
-    min-height: 100vh;
-    background-image:
-      radial-gradient(circle at 15% 10%, rgba(26,35,126,0.06) 0%, transparent 50%),
-      radial-gradient(circle at 85% 90%, rgba(249,168,37,0.07) 0%, transparent 50%);
-  }
-
-  .page { max-width: 1100px; margin: 0 auto; padding: 20px 14px 60px; }
-
-  /* ===== NAME SCREEN ===== */
-  #nameScreen {
-    max-width: 480px;
-    margin: 60px auto 0;
-    background: var(--white);
-    border-radius: 24px;
-    padding: 36px 32px;
-    box-shadow: 0 8px 40px var(--shadow);
-    text-align: center;
-    animation: fadeUp 0.6s cubic-bezier(.34,1.56,.64,1) both;
-  }
-  @keyframes fadeUp { from{transform:translateY(40px);opacity:0} to{transform:translateY(0);opacity:1} }
-
-  .logo-badge {
-    display: inline-block;
-    background: linear-gradient(135deg, var(--navy), var(--blue));
-    color: white;
-    font-family: 'Fredoka One', cursive;
-    font-size: 1rem;
-    border-radius: 50px;
-    padding: 6px 20px;
-    margin-bottom: 16px;
-    letter-spacing: 1px;
-  }
-  #nameScreen h2 {
-    font-family: 'Fredoka One', cursive;
-    font-size: 1.9rem;
-    color: var(--navy);
-    margin-bottom: 6px;
-  }
-  #nameScreen p { color: #777; font-size: 1rem; font-weight: 600; margin-bottom: 26px; }
-
-  .field-wrap { margin-bottom: 18px; text-align: left; }
-  .field-label { display: block; font-size: 0.8rem; font-weight: 700; color: #aaa; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 7px; }
-  .field-input {
-    width: 100%;
-    padding: 12px 18px;
-    border: 2.5px solid #e0e0e0;
-    border-radius: 50px;
-    font-size: 1.1rem;
-    font-family: 'Baloo 2', cursive;
-    font-weight: 700;
-    color: var(--navy);
-    outline: none;
-    transition: border 0.2s, box-shadow 0.2s;
-    background: #fafafa;
-  }
-  .field-input:focus { border-color: var(--blue); box-shadow: 0 0 0 4px rgba(21,101,192,0.1); background: white; }
-
-  .level-row { display: flex; gap: 8px; flex-wrap: wrap; }
-  .level-btn {
-    flex: 1; min-width: 80px;
-    padding: 9px 10px;
-    border-radius: 50px;
-    border: 2.5px solid #e0e0e0;
-    background: white;
-    font-family: 'Baloo 2', cursive;
-    font-weight: 700;
-    font-size: 0.9rem;
-    cursor: pointer;
-    color: #aaa;
-    transition: all 0.2s;
-    text-align: center;
-  }
-  .level-btn:hover, .level-btn.active {
-    border-color: var(--gold);
-    background: #fffde7;
-    color: #e65100;
-    transform: scale(1.05);
-  }
-
-  .start-btn {
-    width: 100%;
-    margin-top: 22px;
-    padding: 14px;
-    background: linear-gradient(135deg, var(--navy), var(--blue));
-    color: white;
-    border: none;
-    border-radius: 50px;
-    font-family: 'Fredoka One', cursive;
-    font-size: 1.3rem;
-    cursor: pointer;
-    box-shadow: 0 6px 20px rgba(21,101,192,0.35);
-    transition: transform 0.15s, box-shadow 0.15s;
-    letter-spacing: 0.5px;
-  }
-  .start-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(21,101,192,0.4); }
-  .start-btn:active { transform: scale(0.97); }
-
-  /* ===== EXAM SCREEN ===== */
-  #examScreen { display: none; animation: fadeUp 0.5s ease both; }
-
-  /* Header */
-  .exam-header {
-    background: linear-gradient(135deg, var(--navy), var(--blue));
-    border-radius: 20px;
-    padding: 16px 24px;
-    color: white;
-    margin-bottom: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 12px;
-    box-shadow: 0 6px 24px rgba(21,101,192,0.3);
-  }
-  .exam-header-left h1 {
-    font-family: 'Fredoka One', cursive;
-    font-size: clamp(1.1rem, 3vw, 1.6rem);
-    letter-spacing: 0.5px;
-  }
-  .exam-header-left p { font-size: 0.85rem; opacity: 0.8; margin-top: 2px; font-weight: 600; }
-  .header-right { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
-
-  .student-tag {
-    background: rgba(255,255,255,0.18);
-    border: 1.5px solid rgba(255,255,255,0.3);
-    border-radius: 50px;
-    padding: 6px 16px;
-    font-weight: 700;
-    font-size: 0.9rem;
-  }
-
-  /* Timer */
-  .timer-box {
-    background: var(--gold);
-    color: var(--navy);
-    border-radius: 50px;
-    padding: 6px 18px;
-    font-family: 'Fredoka One', cursive;
-    font-size: 1.3rem;
-    min-width: 90px;
-    text-align: center;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
-    transition: background 0.3s, color 0.3s;
-  }
-  .timer-box.urgent { background: #ef5350; color: white; animation: timerPulse 0.5s infinite alternate; }
-  @keyframes timerPulse { from{transform:scale(1)} to{transform:scale(1.06)} }
-
-  /* Score info bar */
-  .info-bar {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-bottom: 18px;
-  }
-  .info-cell {
-    background: white;
-    border-radius: 14px;
-    padding: 10px 14px;
-    border: 2px solid var(--border);
-    text-align: center;
-  }
-  .info-cell .ic-label { font-size: 0.72rem; font-weight: 700; color: #aaa; text-transform: uppercase; letter-spacing: 1px; }
-  .info-cell .ic-val {
-    font-family: 'Fredoka One', cursive;
-    font-size: 1.5rem;
-    color: var(--navy);
-    line-height: 1.1;
-  }
-
-  /* Question paper card */
-  .paper-card {
-    background: white;
-    border-radius: 20px;
-    border: 2px solid var(--border);
-    overflow: hidden;
-    box-shadow: 0 4px 20px var(--shadow);
-    margin-bottom: 20px;
-  }
-
-  .paper-title-bar {
-    background: var(--sky);
-    border-bottom: 2px solid var(--border);
-    padding: 10px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-  .paper-title-bar span {
-    font-family: 'Fredoka One', cursive;
-    font-size: 1rem;
-    color: var(--navy);
-  }
-  .paper-title-bar .marks-info { font-size: 0.85rem; color: var(--blue); font-weight: 700; }
-
-  /* Columns grid */
-  .columns-wrapper {
-    overflow-x: auto;
-    padding: 16px 14px 20px;
-  }
-  .columns-grid {
-    display: grid;
-    grid-template-columns: repeat(20, minmax(44px, 1fr));
-    gap: 6px;
-    min-width: 900px;
-  }
-
-  /* Each column */
-  .col-wrap { display: flex; flex-direction: column; align-items: center; gap: 0; }
-
-  .col-num {
-    font-family: 'Fredoka One', cursive;
-    font-size: 0.85rem;
-    color: white;
-    background: var(--blue);
-    border-radius: 8px 8px 0 0;
-    width: 100%;
-    text-align: center;
-    padding: 4px 2px;
-    line-height: 1;
-  }
-
-  .col-numbers {
-    width: 100%;
-    border: 1.5px solid var(--border);
-    border-top: none;
-    border-bottom: none;
-    background: #fafcff;
-  }
-
-  .num-cell {
-    font-family: 'Fredoka One', cursive;
-    font-size: 1.1rem;
-    color: var(--navy);
-    text-align: center;
-    padding: 5px 2px;
-    border-bottom: 1px solid #e8f0fe;
-    line-height: 1.2;
-    min-height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .num-cell.negative { color: var(--red); }
-  .num-cell.last { border-bottom: none; }
-
-  /* Horizontal line before answer */
-  .col-line {
-    width: 100%;
-    height: 3px;
-    background: var(--navy);
-    border-radius: 2px;
-  }
-
-  /* Answer input */
-  .ans-wrap {
-    width: 100%;
-    border: 1.5px solid var(--border);
-    border-top: none;
-    border-radius: 0 0 8px 8px;
-    overflow: hidden;
-    background: white;
-  }
-  .ans-input {
-    width: 100%;
-    padding: 7px 2px;
-    border: none;
-    font-family: 'Fredoka One', cursive;
-    font-size: 1.1rem;
-    text-align: center;
-    color: var(--navy);
-    background: transparent;
-    outline: none;
-    -moz-appearance: textfield;
-  }
-  .ans-input::-webkit-inner-spin-button,
-  .ans-input::-webkit-outer-spin-button { -webkit-appearance: none; }
-  .ans-input:focus { background: #e3f2fd; }
-  .ans-input.correct { background: #e8f5e9; color: var(--green); }
-  .ans-input.wrong   { background: #ffebee; color: var(--red); }
-  .ans-input:disabled { cursor: not-allowed; }
-
-  /* Submit row */
-  .submit-row { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; padding: 0 14px 20px; }
-  .btn-submit {
-    padding: 13px 40px;
-    background: linear-gradient(135deg, #2e7d32, #43a047);
-    color: white;
-    border: none;
-    border-radius: 50px;
-    font-family: 'Fredoka One', cursive;
-    font-size: 1.2rem;
-    cursor: pointer;
-    box-shadow: 0 6px 18px rgba(46,125,50,0.35);
-    transition: transform 0.15s;
-    letter-spacing: 0.5px;
-  }
-  .btn-submit:hover { transform: translateY(-3px) scale(1.04); }
-  .btn-submit:active { transform: scale(0.97); }
-  .btn-submit:disabled { opacity:0.5; cursor:not-allowed; transform:none; }
-
-  /* Timeout */
-  .timeout-banner {
-    background: #ffebee;
-    border: 2px solid #ef9a9a;
-    border-radius: 14px;
-    padding: 12px 20px;
-    text-align: center;
-    font-family: 'Fredoka One', cursive;
-    font-size: 1.2rem;
-    color: var(--red);
-    margin: 0 14px 16px;
-    animation: bounceIn 0.4s ease;
-  }
-  @keyframes bounceIn { from{transform:scale(0.8);opacity:0} to{transform:scale(1);opacity:1} }
-
-  /* ===== RESULT SCREEN ===== */
-  #resultScreen {
-    display: none;
-    max-width: 640px;
-    margin: 30px auto 0;
-    background: white;
-    border-radius: 24px;
-    padding: 36px 28px;
-    box-shadow: 0 8px 40px var(--shadow);
-    text-align: center;
-    animation: fadeUp 0.6s ease both;
-  }
-  .result-trophy { font-size: 5rem; display:block; margin-bottom:10px; animation: spinIn 0.7s ease; }
-  @keyframes spinIn { from{transform:rotate(-180deg) scale(0)} to{transform:rotate(0) scale(1)} }
-  .result-title { font-family:'Fredoka One',cursive; font-size:2rem; color:var(--navy); margin-bottom:6px; }
-  .result-name-tag { color:#aaa; font-weight:700; font-size:1rem; margin-bottom:16px; }
-
-  .score-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin-bottom: 20px;
-  }
-  .score-cell {
-    border-radius: 16px;
-    padding: 14px 10px;
-    border: 2px solid var(--border);
-  }
-  .score-cell .sc-label { font-size:0.75rem; font-weight:700; color:#aaa; text-transform:uppercase; letter-spacing:1px; margin-bottom:4px; }
-  .score-cell .sc-val { font-family:'Fredoka One',cursive; font-size:2rem; color:var(--navy); }
-  .score-cell.highlight { background:linear-gradient(135deg,var(--navy),var(--blue)); border-color:transparent; }
-  .score-cell.highlight .sc-label { color:rgba(255,255,255,0.7); }
-  .score-cell.highlight .sc-val { color:white; }
-
-  .stars-row { font-size:2.5rem; letter-spacing:6px; margin-bottom:14px; }
-  .result-msg {
-    background: linear-gradient(135deg, #e3f2fd, #e8f5e9);
-    border-radius: 14px;
-    padding: 14px 20px;
-    font-size:1rem;
-    font-weight:700;
-    color:var(--navy);
-    margin-bottom:22px;
-    border:2px solid #bbdefb;
-  }
-
-  /* Answer review table */
-  .review-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 24px;
-    font-size: 0.92rem;
-    text-align: center;
-  }
-  .review-table th {
-    background: var(--navy);
-    color: white;
-    padding: 8px 6px;
-    font-family: 'Fredoka One', cursive;
-    font-size: 0.85rem;
-    letter-spacing: 0.5px;
-  }
-  .review-table th:first-child { border-radius: 10px 0 0 0; }
-  .review-table th:last-child  { border-radius: 0 10px 0 0; }
-  .review-table td { padding: 7px 4px; border-bottom: 1px solid #f0f0f0; font-weight: 700; color: var(--navy); }
-  .review-table tr.r-correct td { background: #f1f8e9; }
-  .review-table tr.r-wrong   td { background: #ffebee; }
-  .review-table .mark-cell { font-size:1.1rem; }
-
-  .again-btn {
-    padding:13px 44px;
-    background:linear-gradient(135deg, var(--navy), var(--blue));
-    color:white; border:none; border-radius:50px;
-    font-family:'Fredoka One',cursive; font-size:1.2rem; cursor:pointer;
-    box-shadow:0 6px 20px rgba(21,101,192,0.35);
-    transition:transform 0.15s;
-  }
-  .again-btn:hover { transform:translateY(-3px) scale(1.04); }
-
-  @media(max-width:600px){
-    .info-bar { grid-template-columns: repeat(3,1fr); gap:6px; }
-    .info-cell .ic-val { font-size:1.2rem; }
-    .score-grid { grid-template-columns: repeat(3,1fr); gap:8px; }
-  }
+  :root{--navy:#1a237e;--blue:#1565c0;--sky:#e3f2fd;--gold:#f9a825;--light:#f5f7ff;--red:#e53935;--green:#2e7d32;--border:#bbdefb;--shadow:rgba(21,101,192,.13);}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Baloo 2',cursive;background:var(--light);min-height:100vh;background-image:radial-gradient(circle at 15% 10%,rgba(26,35,126,.06) 0%,transparent 50%),radial-gradient(circle at 85% 90%,rgba(249,168,37,.07) 0%,transparent 50%);}
+  .page{max-width:1000px;margin:0 auto;padding:20px 14px 60px;}
+  #nameScreen{max-width:500px;margin:50px auto 0;background:#fff;border-radius:24px;padding:36px 32px;box-shadow:0 8px 40px var(--shadow);text-align:center;animation:fadeUp .6s cubic-bezier(.34,1.56,.64,1) both;}
+  @keyframes fadeUp{from{transform:translateY(40px);opacity:0}to{transform:translateY(0);opacity:1}}
+  .logo-badge{display:inline-block;background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff;font-family:'Fredoka One',cursive;font-size:1rem;border-radius:50px;padding:6px 20px;margin-bottom:16px;}
+  #nameScreen h2{font-family:'Fredoka One',cursive;font-size:1.9rem;color:var(--navy);margin-bottom:6px;}
+  #nameScreen p{color:#777;font-size:1rem;font-weight:600;margin-bottom:26px;}
+  .field-wrap{margin-bottom:18px;text-align:left;}
+  .field-label{display:block;font-size:.8rem;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:7px;}
+  .field-input{width:100%;padding:12px 18px;border:2.5px solid #e0e0e0;border-radius:50px;font-size:1.1rem;font-family:'Baloo 2',cursive;font-weight:700;color:var(--navy);outline:none;transition:border .2s,box-shadow .2s;background:#fafafa;}
+  .field-input:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(21,101,192,.1);background:#fff;}
+  .level-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:6px;}
+  .level-card{border:2.5px solid #e0e0e0;border-radius:16px;padding:12px 14px;cursor:pointer;transition:all .2s;text-align:left;background:#fff;}
+  .level-card:hover{border-color:var(--blue);background:var(--sky);transform:translateY(-2px);}
+  .level-card.active{border-color:var(--navy);background:linear-gradient(135deg,#e8eaf6,var(--sky));}
+  .lc-top{display:flex;align-items:center;gap:8px;margin-bottom:4px;}
+  .lc-badge{font-family:'Fredoka One',cursive;font-size:.8rem;background:var(--navy);color:#fff;border-radius:50px;padding:2px 10px;}
+  .lc-badge.l3{background:#6a1b9a;}.lc-badge.l4{background:#e65100;}
+  .lc-name{font-family:'Fredoka One',cursive;font-size:.95rem;color:var(--navy);}
+  .lc-desc{font-size:.78rem;color:#888;font-weight:600;line-height:1.3;}
+  .start-btn{width:100%;margin-top:20px;padding:14px;background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff;border:none;border-radius:50px;font-family:'Fredoka One',cursive;font-size:1.3rem;cursor:pointer;box-shadow:0 6px 20px rgba(21,101,192,.35);transition:transform .15s,box-shadow .15s;}
+  .start-btn:hover{transform:translateY(-3px);} .start-btn:active{transform:scale(.97);}
+  #examScreen{display:none;animation:fadeUp .5s ease both;}
+  .exam-header{background:linear-gradient(135deg,var(--navy),var(--blue));border-radius:20px;padding:16px 24px;color:#fff;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;box-shadow:0 6px 24px rgba(21,101,192,.3);}
+  .exam-header-left h1{font-family:'Fredoka One',cursive;font-size:clamp(1.1rem,3vw,1.5rem);}
+  .exam-header-left p{font-size:.85rem;opacity:.8;margin-top:2px;font-weight:600;}
+  .header-right{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+  .student-tag{background:rgba(255,255,255,.18);border:1.5px solid rgba(255,255,255,.3);border-radius:50px;padding:6px 16px;font-weight:700;font-size:.9rem;}
+  .timer-box{background:var(--gold);color:var(--navy);border-radius:50px;padding:6px 18px;font-family:'Fredoka One',cursive;font-size:1.3rem;min-width:90px;text-align:center;box-shadow:0 3px 10px rgba(0,0,0,.15);transition:background .3s,color .3s;}
+  .timer-box.urgent{background:#ef5350;color:#fff;animation:timerPulse .5s infinite alternate;}
+  @keyframes timerPulse{from{transform:scale(1)}to{transform:scale(1.06)}}
+  .info-bar{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px;}
+  .info-cell{background:#fff;border-radius:14px;padding:10px 14px;border:2px solid var(--border);text-align:center;}
+  .ic-label{font-size:.72rem;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:1px;}
+  .ic-val{font-family:'Fredoka One',cursive;font-size:1.5rem;color:var(--navy);line-height:1.1;}
+  .paper-card{background:#fff;border-radius:20px;border:2px solid var(--border);overflow:hidden;box-shadow:0 4px 20px var(--shadow);margin-bottom:20px;}
+  .paper-title-bar{background:var(--sky);border-bottom:2px solid var(--border);padding:10px 20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+  .paper-title-bar span{font-family:'Fredoka One',cursive;font-size:1rem;color:var(--navy);}
+  .marks-info{font-size:.85rem;color:var(--blue);font-weight:700;}
+  .row-block{padding:14px 16px 0;}
+  .row-label{font-size:.75rem;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+  .row-label span{background:var(--navy);color:#fff;border-radius:50px;font-family:'Fredoka One',cursive;font-size:.75rem;padding:2px 10px;}
+  .five-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px;}
+  .col-wrap{display:flex;flex-direction:column;align-items:stretch;}
+  .col-num{font-family:'Fredoka One',cursive;font-size:.85rem;color:#fff;background:var(--blue);border-radius:8px 8px 0 0;text-align:center;padding:5px 2px;line-height:1;}
+  .col-numbers{border:1.5px solid var(--border);border-top:none;border-bottom:none;background:#fafcff;}
+  .num-cell{font-family:'Fredoka One',cursive;font-size:1.15rem;color:var(--navy);text-align:center;padding:6px 4px;border-bottom:1px solid #e8f0fe;line-height:1.2;min-height:34px;display:flex;align-items:center;justify-content:center;}
+  .num-cell.negative{color:var(--red);} .num-cell.last{border-bottom:none;}
+  .col-line{height:3px;background:var(--navy);border-radius:2px;}
+  .ans-wrap{border:1.5px solid var(--border);border-top:none;border-radius:0 0 8px 8px;overflow:hidden;background:#fff;}
+  .ans-input{width:100%;padding:8px 4px;border:none;font-family:'Fredoka One',cursive;font-size:1.2rem;text-align:center;color:var(--navy);background:transparent;outline:none;-moz-appearance:textfield;}
+  .ans-input::-webkit-inner-spin-button,.ans-input::-webkit-outer-spin-button{-webkit-appearance:none;}
+  .ans-input:focus{background:#dbeafe;}
+  .ans-input.correct{background:#dcfce7;color:var(--green);}
+  .ans-input.wrong{background:#fee2e2;color:var(--red);}
+  .ans-input:disabled{cursor:not-allowed;}
+  .submit-row{display:flex;justify-content:center;padding:6px 14px 20px;}
+  .btn-submit{padding:13px 40px;background:linear-gradient(135deg,#2e7d32,#43a047);color:#fff;border:none;border-radius:50px;font-family:'Fredoka One',cursive;font-size:1.2rem;cursor:pointer;box-shadow:0 6px 18px rgba(46,125,50,.35);transition:transform .15s;}
+  .btn-submit:hover{transform:translateY(-3px) scale(1.04);} .btn-submit:active{transform:scale(.97);}
+  .btn-submit:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+  .timeout-banner{background:#fee2e2;border:2px solid #fca5a5;border-radius:14px;padding:12px 20px;text-align:center;font-family:'Fredoka One',cursive;font-size:1.2rem;color:var(--red);margin:0 14px 16px;animation:bounceIn .4s ease;}
+  @keyframes bounceIn{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
+  #resultScreen{display:none;}
+  .report-wrap{max-width:900px;margin:0 auto;}
+  .report-actions{display:flex;gap:12px;justify-content:center;margin-bottom:20px;flex-wrap:wrap;}
+  .btn-print{padding:12px 32px;background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff;border:none;border-radius:50px;font-family:'Fredoka One',cursive;font-size:1.1rem;cursor:pointer;box-shadow:0 6px 18px rgba(21,101,192,.35);transition:transform .15s;}
+  .btn-print:hover{transform:translateY(-2px) scale(1.04);}
+  .btn-again{padding:12px 32px;background:linear-gradient(135deg,#e65100,var(--gold));color:#fff;border:none;border-radius:50px;font-family:'Fredoka One',cursive;font-size:1.1rem;cursor:pointer;transition:transform .15s;}
+  .btn-again:hover{transform:translateY(-2px) scale(1.04);}
+  .report-card{background:#fff;border-radius:20px;border:2px solid var(--border);box-shadow:0 6px 30px var(--shadow);overflow:hidden;}
+  .rpt-header{background:linear-gradient(135deg,var(--navy),#1976d2);padding:22px 28px;color:#fff;}
+  .rpt-header-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:14px;}
+  .rpt-logo{font-family:'Fredoka One',cursive;font-size:1.5rem;}
+  .rpt-logo span{color:var(--gold);}
+  .rpt-title{font-family:'Fredoka One',cursive;font-size:1rem;opacity:.85;margin-top:3px;}
+  .rpt-badge{background:rgba(255,255,255,.18);border:1.5px solid rgba(255,255,255,.3);border-radius:50px;padding:6px 18px;font-weight:700;font-size:.9rem;}
+  .rpt-student-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+  .rpt-field{background:rgba(255,255,255,.12);border-radius:10px;padding:8px 14px;}
+  .rf-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;opacity:.7;margin-bottom:2px;}
+  .rf-val{font-family:'Fredoka One',cursive;font-size:1rem;}
+  .score-strip{display:grid;grid-template-columns:repeat(5,1fr);background:var(--sky);border-bottom:2px solid var(--border);}
+  .ss-cell{padding:14px 10px;text-align:center;border-right:1px solid var(--border);}
+  .ss-cell:last-child{border-right:none;}
+  .ss-label{font-size:.7rem;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
+  .ss-val{font-family:'Fredoka One',cursive;font-size:1.7rem;color:var(--navy);}
+  .ss-cell.hl{background:linear-gradient(135deg,var(--navy),var(--blue));}
+  .ss-cell.hl .ss-label,.ss-cell.hl .ss-val{color:#fff;}
+  .ss-cell.hl2{background:linear-gradient(135deg,#1b5e20,#2e7d32);}
+  .ss-cell.hl2 .ss-label,.ss-cell.hl2 .ss-val{color:#fff;}
+  .pct-bar-bg{height:6px;background:rgba(0,0,0,.1);border-radius:50px;margin-top:5px;overflow:hidden;}
+  .pct-bar-fill{height:100%;border-radius:50px;background:var(--gold);}
+  .stars-band{background:#fffde7;border-bottom:2px solid #fef08a;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+  .stars-val{font-size:2rem;letter-spacing:4px;}
+  .stars-msg{font-family:'Fredoka One',cursive;font-size:1rem;color:var(--navy);}
+  .breakdown-section{padding:20px 24px 10px;}
+  .breakdown-title{font-family:'Fredoka One',cursive;font-size:1.1rem;color:var(--navy);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+  .bd-chip{background:var(--sky);color:var(--blue);border-radius:50px;padding:2px 12px;font-size:.8rem;}
+  .bd-row-label{font-size:.75rem;font-weight:700;color:#aaa;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+  .bd-row-label span{background:var(--navy);color:#fff;border-radius:50px;font-family:'Fredoka One',cursive;font-size:.75rem;padding:2px 10px;}
+  .bd-five-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:14px;}
+  .q-card{border-radius:12px;padding:10px 8px;border:2px solid #e0e0e0;text-align:center;}
+  .q-card.qc-correct{border-color:rgba(46,125,50,.4);background:#f0fdf4;}
+  .q-card.qc-wrong{border-color:rgba(229,57,53,.3);background:#fff1f1;}
+  .q-card.qc-skip{background:#fafafa;}
+  .qc-num{font-size:.7rem;font-weight:700;color:#aaa;text-transform:uppercase;margin-bottom:2px;}
+  .qc-numbers{font-size:.75rem;font-weight:700;color:#555;margin-bottom:4px;line-height:1.5;}
+  .qc-answer{font-family:'Fredoka One',cursive;font-size:1rem;color:var(--navy);margin-bottom:2px;}
+  .qc-yours{font-size:.8rem;font-weight:700;}
+  .qc-yours.y-correct{color:var(--green);} .qc-yours.y-wrong{color:var(--red);} .qc-yours.y-skip{color:#bbb;}
+  .qc-icon{font-size:1.1rem;margin-top:3px;}
+  .wrong-section{padding:0 24px 20px;}
+  .wrong-title{font-family:'Fredoka One',cursive;font-size:1rem;color:var(--red);margin-bottom:10px;}
+  .wrong-table{width:100%;border-collapse:collapse;font-size:.88rem;}
+  .wrong-table th{background:#fee2e2;color:var(--red);padding:7px 10px;text-align:left;font-family:'Fredoka One',cursive;font-size:.85rem;}
+  .wrong-table th:first-child{border-radius:8px 0 0 0;} .wrong-table th:last-child{border-radius:0 8px 0 0;}
+  .wrong-table td{padding:7px 10px;border-bottom:1px solid #f5f5f5;font-weight:700;color:var(--navy);}
+  .wt-yours{color:var(--red);} .wt-ans{color:var(--green);}
+  .time-band{background:var(--sky);border-top:2px solid var(--border);padding:10px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;}
+  .time-band span{font-size:.85rem;font-weight:700;color:var(--blue);}
+  .tb-val{font-family:'Fredoka One',cursive;font-size:1.1rem;color:var(--navy);}
+  .rpt-footer{background:var(--navy);padding:12px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+  .rpt-footer span{font-size:.8rem;color:rgba(255,255,255,.65);font-weight:600;}
+  .rpt-footer .rf-date{font-family:'Fredoka One',cursive;font-size:.9rem;color:rgba(255,255,255,.9);}
+  @media(max-width:600px){.level-grid,.rpt-student-row{grid-template-columns:1fr 1fr;}.score-strip{grid-template-columns:repeat(3,1fr);}.five-grid,.bd-five-grid{grid-template-columns:repeat(3,1fr);}}
+  @media print{body{background:#fff!important;}.page{padding:0!important;}.report-actions{display:none!important;}#nameScreen,#examScreen{display:none!important;}#resultScreen{display:block!important;}.report-card{box-shadow:none!important;border:1px solid #ccc!important;}}
 </style>
 </head>
 <body>
 <div class="page">
-
-  <!-- ===== NAME SCREEN ===== -->
-  <div id="nameScreen">
-    <div class="logo-badge">🏆 SIP Regional Prodigy</div>
-    <h2>Abacus Challenge</h2>
-    <p>Enter your details and choose your level to begin!</p>
-
-    <div class="field-wrap">
-      <label class="field-label">Student Name</label>
-      <input class="field-input" id="nameInput" type="text" placeholder="e.g. Ravi Kumar" maxlength="25" autocomplete="off" />
-    </div>
-
-    <div class="field-wrap">
-      <label class="field-label">Roll Number / ID (optional)</label>
-      <input class="field-input" id="rollInput" type="text" placeholder="e.g. 760" maxlength="12" autocomplete="off" />
-    </div>
-
-    <div class="field-wrap">
-      <label class="field-label">Level / Class</label>
-      <div class="level-row">
-        <button class="level-btn active" data-level="Level 1">Level 1</button>
-        <button class="level-btn" data-level="Level 2">Level 2</button>
-        <button class="level-btn" data-level="Level 3">Level 3</button>
-        <button class="level-btn" data-level="Level 4">Level 4</button>
-      </div>
-    </div>
-
-    <button class="start-btn" onclick="startExam()">Start Exam ▶</button>
+<div id="nameScreen">
+  <div class="logo-badge">🏆 SIP Abacus</div>
+  <h2>Abacus Challenge</h2>
+  <p>Enter your name, pick your level and start!</p>
+  <div class="field-wrap">
+    <label class="field-label">Student Name</label>
+    <input class="field-input" id="nameInput" type="text" placeholder="e.g. Ravi Kumar" maxlength="30" autocomplete="off"/>
   </div>
-
-  <!-- ===== EXAM SCREEN ===== -->
-  <div id="examScreen">
-
-    <div class="exam-header">
-      <div class="exam-header-left">
-        <h1>🏆 SIP Regional Prodigy</h1>
-        <p>Abacus Question Paper — Direct Sums &nbsp;|&nbsp; <span id="levelDisplay">Level 1</span></p>
+  <div class="field-wrap">
+    <label class="field-label">Select Level</label>
+    <div class="level-grid">
+      <div class="level-card active" data-level="1" onclick="selectLevel(this)">
+        <div class="lc-top"><span class="lc-badge">Level 1</span><span class="lc-name">Beginners</span></div>
+        <div class="lc-desc">Single-digit sums, 4 rows. Class 1 &amp; 2. 20 questions, 5 per row.</div>
       </div>
-      <div class="header-right">
-        <div class="student-tag" id="studentTag">👤 Student</div>
-        <div class="timer-box" id="timerBox">5:00</div>
+      <div class="level-card" data-level="2" onclick="selectLevel(this)">
+        <div class="lc-top"><span class="lc-badge l3">Level 2</span><span class="lc-name">Small Boss</span></div>
+        <div class="lc-desc">SIP Small Boss concept, 5 rows. 20 questions, 5 per row.</div>
       </div>
-    </div>
-
-    <div class="info-bar">
-      <div class="info-cell">
-        <div class="ic-label">A. Sums Attempted</div>
-        <div class="ic-val" id="infoAttempted">0</div>
-      </div>
-      <div class="info-cell">
-        <div class="ic-label">B. Correct Sums</div>
-        <div class="ic-val" id="infoCorrect">0</div>
-      </div>
-      <div class="info-cell">
-        <div class="ic-label">C. Marks (B×2)</div>
-        <div class="ic-val" id="infoMarks">0</div>
+      <div class="level-card" data-level="3" onclick="selectLevel(this)">
+        <div class="lc-top"><span class="lc-badge l4">Level 3</span><span class="lc-name">Big Boss</span></div>
+        <div class="lc-desc">Single digit, 6 rows. 20 questions, 5 per row.</div>
       </div>
     </div>
-
-    <div class="paper-card">
-      <div class="paper-title-bar">
-        <span>📝 Direct Sums — 20 Questions &nbsp;|&nbsp; Time: 5 Minutes</span>
-        <span class="marks-info">Each correct answer = 2 marks</span>
-      </div>
-      <div class="columns-wrapper">
-        <div class="columns-grid" id="columnsGrid"></div>
-      </div>
-      <div id="timeoutBanner"></div>
-      <div class="submit-row">
-        <button class="btn-submit" id="submitBtn" onclick="submitExam()">Submit Answers ✅</button>
-      </div>
-    </div>
-
   </div>
+  <button class="start-btn" onclick="startExam()">Start Exam ▶</button>
+</div>
 
-  <!-- ===== RESULT SCREEN ===== -->
-  <div id="resultScreen"></div>
+<div id="examScreen">
+  <div class="exam-header">
+    <div class="exam-header-left">
+      <h1>🏆 SIP Abacus Challenge</h1>
+      <p>Direct Sums &nbsp;|&nbsp; <span id="levelDisplay">Level 1</span></p>
+    </div>
+    <div class="header-right">
+      <div class="student-tag" id="studentTag">👤 Student</div>
+      <div class="timer-box" id="timerBox">5:00</div>
+    </div>
+  </div>
+  <div class="info-bar">
+    <div class="info-cell"><div class="ic-label">A. Sums Attempted</div><div class="ic-val" id="infoAttempted">0</div></div>
+    <div class="info-cell"><div class="ic-label">B. Correct Sums</div><div class="ic-val" id="infoCorrect">—</div></div>
+    <div class="info-cell"><div class="ic-label">C. Marks (B×2)</div><div class="ic-val" id="infoMarks">—</div></div>
+  </div>
+  <div class="paper-card">
+    <div class="paper-title-bar">
+      <span id="paperLabel">📝 Direct Sums — 20 Questions | 5 per Row | Time: 5 Minutes</span>
+      <span class="marks-info">Each correct = 2 marks</span>
+    </div>
+    <div id="examRows"></div>
+    <div id="timeoutBanner"></div>
+    <div class="submit-row">
+      <button class="btn-submit" id="submitBtn" onclick="submitExam()">Submit Answers ✅</button>
+    </div>
+  </div>
+</div>
 
+<div id="resultScreen"></div>
 </div>
 
 <script>
-// ===== DATA =====
-// Exactly the 20 questions from the paper (each column = one question, rows = addends)
-const QUESTIONS = [
-  [9, -2, 2, -5],
-  [55, 2, -6, 5],
-  [5, 4, -3, -5],
-  [55, 2, -7, 2],
-  [1, 7, -6, 5],
-  [8, 1, -5, -1],
-  [27, 2, -8, 5],
-  [9, -6, 1, 5],
-  [99, -4, -50, -5],
-  [5, 4, -5, -3],
-  [5, 1, 3, -4],
-  [8, -6, 2, -2],
-  [57, -2, 3, -5],
-  [84, -2, 6, -50],
-  [53, 6, -7, 1],
-  [11, 8, 20, -7],
-  [65, -5, 9, -14],
-  [68, -5, 31, -4],
-  [5, 3, -5, 1],
-  [1, 7, -2, -5]
+const LEVEL_CONFIG={1:{name:'Level 1 — Beginners',rows:4,time:300,desc:'Single digit, 4 rows'},3:{name:'Level 2 — Small Boss',rows:5,time:300,desc:'Small Boss concept, 5 rows'},4:{name:'Level 3 — Big Boss',rows:6,time:300,desc:'Single digit, 6 rows'}};
+const TOTAL_Q=20,PER_ROW=5;
+
+const BANK_L1=[
+  [3,5,1,-5],[2,7,-6,-2],[1,5,2,-3],[8,1,-2,-1],[5,2,-2,3],
+  [1,5,2,-6],[5,2,1,-7],[9,-9,4,-1],[7,-5,2,5],[4,5,-2,2],
+  [6,2,-3,-1],[3,4,-2,1],[8,-3,2,-4],[2,6,-1,-3],[9,-4,-3,2],
+  [4,3,-1,-2],[7,1,-4,2],[5,-1,3,-4],[6,-2,-1,3],[3,5,-4,1]
+];
+const BANK_L3=[
+  [4,2,-3,1,5],[3,1,-1,2,2],[4,1,-5,8,-3],[2,1,4,-3,5],[5,1,-5,4,2],
+  [4,3,-2,3,-4],[5,-2,5,1,-3],[4,2,3,-5,2],[5,1,2,-6,3],[5,-3,7,-8,2],
+  [5,-2,2,2,1],[3,2,-1,5,-6],[4,3,2,-4,-3],[9,-3,-4,3,1],[1,5,-1,0,4],
+  [5,-1,5,-3,1],[9,-6,2,1,3],[9,-8,4,-1,-2],[5,-2,4,1,1],[8,-7,4,-3,2]
+];
+const BANK_L4=[
+  [5,3,-2,1,2,-1],[7,2,-3,4,-5,1],[9,-4,2,-3,1,2],[4,5,1,-3,-2,3],[8,-2,3,-4,1,2],
+  [6,3,-1,-2,4,-3],[5,4,-3,2,-1,3],[3,6,-2,1,-3,4],[7,1,-4,3,-2,2],[9,-3,1,-2,4,-1],
+  [4,2,3,-1,-4,5],[8,-5,3,2,-1,-2],[6,1,-2,4,-3,2],[5,3,1,-4,2,-3],[7,-2,4,-1,3,-5],
+  [9,-1,-3,2,4,-6],[3,5,-2,1,-4,3],[6,-3,4,-2,1,2],[8,1,-5,3,-2,4],[4,6,-3,-1,2,-4]
 ];
 
-// Pre-compute correct answers
-const ANSWERS = QUESTIONS.map(col => col.reduce((s, n) => s + n, 0));
+function shuffledBank(bank){const a=bank.map(c=>[...c]);for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function generateQuestions(l){if(l===1)return shuffledBank(BANK_L1);if(l===3)return shuffledBank(BANK_L3);return shuffledBank(BANK_L4);}
 
-let playerName = '', rollNo = '', level = 'Level 1';
-let timerInterval = null;
-let secondsLeft = 300; // 5 minutes
-let submitted = false;
+let playerName='',selectedLevel=1,QUESTIONS=[],ANSWERS=[],timerInterval=null,secondsLeft=300,submitted=false,examStartTime=null;
 
-// ===== LEVEL BUTTONS =====
-document.querySelectorAll('.level-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.level-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    level = btn.dataset.level;
+function selectLevel(card){document.querySelectorAll('.level-card').forEach(c=>c.classList.remove('active'));card.classList.add('active');selectedLevel=parseInt(card.dataset.level);}
+
+function startExam(){
+  const v=document.getElementById('nameInput').value.trim();
+  if(!v){document.getElementById('nameInput').style.borderColor='#ef5350';document.getElementById('nameInput').focus();setTimeout(()=>document.getElementById('nameInput').style.borderColor='',1500);return;}
+  playerName=v;submitted=false;examStartTime=new Date();
+  QUESTIONS=generateQuestions(selectedLevel);ANSWERS=QUESTIONS.map(col=>col.reduce((s,n)=>s+n,0));
+  const cfg=LEVEL_CONFIG[selectedLevel];secondsLeft=cfg.time;
+  document.getElementById('nameScreen').style.display='none';
+  document.getElementById('examScreen').style.display='block';
+  document.getElementById('levelDisplay').textContent=cfg.name;
+  document.getElementById('studentTag').textContent='👤 '+playerName;
+  document.getElementById('paperLabel').textContent='📝 '+cfg.name+' — '+TOTAL_Q+' Questions | '+PER_ROW+' per Row | '+cfg.desc+' | Time: 5 Min';
+  buildExamRows();startTimer();
+}
+
+function buildExamRows(){
+  const container=document.getElementById('examRows');container.innerHTML='';
+  const numRB=TOTAL_Q/PER_ROW;
+  for(let rb=0;rb<numRB;rb++){
+    const start=rb*PER_ROW,end=start+PER_ROW;
+    const rowBlock=document.createElement('div');rowBlock.className='row-block';
+    const lbl=document.createElement('div');lbl.className='row-label';
+    lbl.innerHTML='<span>Row '+(rb+1)+'</span> Questions '+(start+1)+' – '+end;
+    rowBlock.appendChild(lbl);
+    const fiveGrid=document.createElement('div');fiveGrid.className='five-grid';
+    for(let qi=start;qi<end;qi++){
+      const col=QUESTIONS[qi];
+      const wrap=document.createElement('div');wrap.className='col-wrap';
+      const hdr=document.createElement('div');hdr.className='col-num';hdr.textContent=qi+1;wrap.appendChild(hdr);
+      const nb=document.createElement('div');nb.className='col-numbers';
+      col.forEach((n,ni)=>{
+        const cell=document.createElement('div');
+        cell.className='num-cell'+(n<0?' negative':'')+(ni===col.length-1?' last':'');
+        cell.textContent=n<0?'−'+Math.abs(n):(n===0?'0':n);nb.appendChild(cell);
+      });
+      wrap.appendChild(nb);
+      const line=document.createElement('div');line.className='col-line';wrap.appendChild(line);
+      const aw=document.createElement('div');aw.className='ans-wrap';
+      const inp=document.createElement('input');inp.className='ans-input';inp.id='ans'+qi;
+      inp.type='number';inp.placeholder='?';inp.autocomplete='off';
+      inp.addEventListener('input',updateInfoBar);
+      inp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();const nxt=document.getElementById('ans'+(qi+1));if(nxt)nxt.focus();else submitExam();}});
+      aw.appendChild(inp);wrap.appendChild(aw);fiveGrid.appendChild(wrap);
+    }
+    rowBlock.appendChild(fiveGrid);container.appendChild(rowBlock);
+  }
+  const spacer=document.createElement('div');spacer.style.height='6px';container.appendChild(spacer);
+  setTimeout(()=>document.getElementById('ans0')?.focus(),150);
+}
+
+function updateInfoBar(){let att=0;for(let i=0;i<TOTAL_Q;i++){if((document.getElementById('ans'+i)?.value??'')!=='')att++;}document.getElementById('infoAttempted').textContent=att;}
+
+function startTimer(){updateTimerDisplay();clearInterval(timerInterval);timerInterval=setInterval(()=>{secondsLeft--;updateTimerDisplay();if(secondsLeft<=0){clearInterval(timerInterval);timeIsUp();}},1000);}
+function updateTimerDisplay(){const m=Math.floor(secondsLeft/60),s=secondsLeft%60;const box=document.getElementById('timerBox');box.textContent=m+':'+String(s).padStart(2,'0');box.className='timer-box'+(secondsLeft<=30?' urgent':'');}
+function timeIsUp(){if(submitted)return;for(let i=0;i<TOTAL_Q;i++){const inp=document.getElementById('ans'+i);if(inp)inp.disabled=true;}document.getElementById('submitBtn').disabled=true;document.getElementById('timeoutBanner').innerHTML='<div class="timeout-banner">⏰ Time\'s Up! Submitting your paper…</div>';setTimeout(()=>submitExam(true),1500);}
+
+function submitExam(fromTimeout){
+  if(submitted)return;submitted=true;clearInterval(timerInterval);
+  const timeTakenSec=Math.round((new Date()-examStartTime)/1000);
+  for(let i=0;i<TOTAL_Q;i++){const inp=document.getElementById('ans'+i);if(inp)inp.disabled=true;}
+  document.getElementById('submitBtn').disabled=true;
+  let attempted=0,correct=0;const results=[];
+  QUESTIONS.forEach((col,i)=>{
+    const inp=document.getElementById('ans'+i),raw=inp?inp.value:'';
+    const userVal=raw!==''?parseInt(raw):NaN,isCorrect=!isNaN(userVal)&&userVal===ANSWERS[i];
+    if(raw!=='')attempted++;if(isCorrect)correct++;
+    if(inp)inp.classList.add(isCorrect?'correct':(raw!==''?'wrong':''));
+    results.push({col,answer:ANSWERS[i],userVal,correct:isCorrect,skipped:raw===''});
   });
-});
+  const marks=correct*2;
+  document.getElementById('infoAttempted').textContent=attempted;
+  document.getElementById('infoCorrect').textContent=correct;
+  document.getElementById('infoMarks').textContent=marks;
+  setTimeout(()=>showReport(attempted,correct,marks,results,timeTakenSec),700);
+}
 
-// ===== START EXAM =====
-function startExam() {
-  const nameVal = document.getElementById('nameInput').value.trim();
-  if (!nameVal) {
-    document.getElementById('nameInput').style.borderColor = '#ef5350';
-    document.getElementById('nameInput').focus();
-    setTimeout(() => document.getElementById('nameInput').style.borderColor = '', 1500);
-    return;
+function fmtTime(sec){const m=Math.floor(sec/60),s=sec%60;return m>0?m+'m '+s+'s':s+'s';}
+
+function showReport(attempted,correct,marks,results,timeTakenSec){
+  document.getElementById('examScreen').style.display='none';
+  const rs=document.getElementById('resultScreen');rs.style.display='block';
+  const pct=Math.round((correct/TOTAL_Q)*100),wrong=attempted-correct;
+  let trophy='🏆',stars='⭐⭐⭐',grade='',gradeColor='#1565c0',msg='';
+  if(pct===100){trophy='🥇';stars='🌟🌟🌟';grade='A+';gradeColor='#2e7d32';msg='PERFECT SCORE! Every answer correct! Amazing, '+playerName+'!';}
+  else if(pct>=85){trophy='🏆';stars='⭐⭐⭐';grade='A';gradeColor='#2e7d32';msg='Outstanding! You\'re a true Prodigy, '+playerName+'!';}
+  else if(pct>=70){trophy='🥈';stars='⭐⭐';grade='B';gradeColor='#1565c0';msg='Great job, '+playerName+'! Keep pushing for perfection!';}
+  else if(pct>=50){trophy='🥉';stars='⭐';grade='C';gradeColor='#e65100';msg='Good effort, '+playerName+'! More practice will get you there!';}
+  else{trophy='📚';stars='🌱';grade='D';gradeColor='#c62828';msg='Don\'t give up, '+playerName+'! Practice makes perfect!';}
+  const now=new Date(),dateStr=now.toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}),timeStr=now.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+  const cfg=LEVEL_CONFIG[selectedLevel];
+  let breakdownHTML='';
+  const numRB=TOTAL_Q/PER_ROW;
+  for(let rb=0;rb<numRB;rb++){
+    const start=rb*PER_ROW,end=start+PER_ROW;
+    breakdownHTML+='<div class="bd-row-label"><span>Row '+(rb+1)+'</span> Q'+(start+1)+'–Q'+end+'</div><div class="bd-five-grid">';
+    for(let i=start;i<end;i++){
+      const r=results[i],cls=r.correct?'qc-correct':r.skipped?'qc-skip':'qc-wrong';
+      const yClass=r.correct?'y-correct':r.skipped?'y-skip':'y-wrong',icon=r.correct?'✅':r.skipped?'➖':'❌';
+      const numsHtml=r.col.map(n=>n<0?'<span style="color:#e53935">−'+Math.abs(n)+'</span>':n).join(' ');
+      breakdownHTML+='<div class="q-card '+cls+'"><div class="qc-num">Q'+(i+1)+'</div><div class="qc-numbers">'+numsHtml+'</div><div class="qc-answer">Ans: <b>'+r.answer+'</b></div><div class="qc-yours '+yClass+'">You: '+(r.skipped?'—':r.userVal)+'</div><div class="qc-icon">'+icon+'</div></div>';
+    }
+    breakdownHTML+='</div>';
   }
-  playerName = nameVal;
-  rollNo = document.getElementById('rollInput').value.trim();
-  submitted = false;
+  const wrongList=results.filter(r=>!r.correct&&!r.skipped);
+  let wrongRows='';
+  wrongList.forEach(r=>{const qIdx=results.indexOf(r),numsStr=r.col.map(n=>n<0?'−'+Math.abs(n):n).join(', ');wrongRows+='<tr><td>Q'+(qIdx+1)+'</td><td>'+numsStr+'</td><td class="wt-ans">'+r.answer+'</td><td class="wt-yours">'+r.userVal+'</td><td>'+(r.answer-r.userVal>0?'+':'')+(r.answer-r.userVal)+'</td></tr>';});
 
-  document.getElementById('nameScreen').style.display = 'none';
-  document.getElementById('examScreen').style.display = 'block';
-  document.getElementById('levelDisplay').textContent = level;
-  document.getElementById('studentTag').textContent = '👤 ' + playerName + (rollNo ? ' (' + rollNo + ')' : '');
-
-  buildGrid();
-  startTimer();
+  rs.innerHTML='<div class="report-wrap"><div class="report-actions"><button class="btn-print" onclick="window.print()">🖨️ Print / Save Report</button><button class="btn-again" onclick="tryAgain()">🔄 Try Again</button></div><div class="report-card"><div class="rpt-header"><div class="rpt-header-top"><div><div class="rpt-logo">🏆 SIP <span>Abacus Challenge</span></div><div class="rpt-title">Direct Sums &nbsp;|&nbsp; '+cfg.name+' &nbsp;|&nbsp; '+TOTAL_Q+' Qs, '+PER_ROW+' per row</div></div><div class="rpt-badge">'+trophy+' Consolidation Report</div></div><div class="rpt-student-row"><div class="rpt-field"><div class="rf-label">Student Name</div><div class="rf-val">'+playerName+'</div></div><div class="rpt-field"><div class="rf-label">Level</div><div class="rf-val">'+cfg.name+'</div></div><div class="rpt-field"><div class="rf-label">Date &amp; Time</div><div class="rf-val">'+dateStr+', '+timeStr+'</div></div></div></div><div class="score-strip"><div class="ss-cell"><div class="ss-label">A. Attempted</div><div class="ss-val">'+attempted+'<span style="font-size:.9rem;color:#888"> / '+TOTAL_Q+'</span></div><div class="pct-bar-bg"><div class="pct-bar-fill" style="width:'+Math.round(attempted/TOTAL_Q*100)+'%;background:#38bdf8"></div></div></div><div class="ss-cell hl2"><div class="ss-label">B. Correct</div><div class="ss-val">'+correct+'</div><div class="pct-bar-bg"><div class="pct-bar-fill" style="width:'+pct+'%;background:#fff"></div></div></div><div class="ss-cell hl"><div class="ss-label">C. Marks (B×2)</div><div class="ss-val">'+marks+'<span style="font-size:.9rem;opacity:.7"> / 40</span></div><div class="pct-bar-bg"><div class="pct-bar-fill" style="width:'+Math.round(marks/40*100)+'%;background:#fff"></div></div></div><div class="ss-cell"><div class="ss-label">Wrong</div><div class="ss-val" style="color:#e53935">'+wrong+'</div></div><div class="ss-cell"><div class="ss-label">Grade</div><div class="ss-val" style="color:'+gradeColor+'">'+grade+'</div></div></div><div class="stars-band"><div class="stars-val">'+stars+'</div><div class="stars-msg">'+msg+'</div><div style="font-family:\'Fredoka One\',cursive;font-size:1.2rem;color:var(--blue);">'+pct+'% Accuracy</div></div><div class="breakdown-section"><div class="breakdown-title">📊 Question-by-Question Breakdown <span class="bd-chip">'+TOTAL_Q+' questions · '+PER_ROW+' per row</span></div>'+breakdownHTML+'</div>'+(wrongList.length>0?'<div class="wrong-section"><div class="wrong-title">❌ Incorrect Answers — Review &amp; Correct ('+wrongList.length+' of '+TOTAL_Q+')</div><table class="wrong-table"><thead><tr><th>Q</th><th>Numbers</th><th>Correct Answer</th><th>Your Answer</th><th>Difference</th></tr></thead><tbody>'+wrongRows+'</tbody></table></div>':'<div style="padding:0 24px 20px;font-family:\'Fredoka One\',cursive;color:var(--green);font-size:1.1rem;">🎉 All correct! Perfect score!</div>')+'<div class="time-band"><span>⏱ Time Taken</span><span class="tb-val">'+fmtTime(timeTakenSec)+' <span style="font-weight:600;font-size:.85rem;color:#888">of 5:00 allowed</span></span><span>📅 '+dateStr+'</span></div><div class="rpt-footer"><span>SIP Abacus — '+cfg.name+'</span><span class="rf-date">Generated: '+dateStr+' '+timeStr+'</span></div></div></div>';
 }
 
-// ===== BUILD GRID =====
-function buildGrid() {
-  const grid = document.getElementById('columnsGrid');
-  grid.innerHTML = '';
-
-  QUESTIONS.forEach((col, qi) => {
-    const wrap = document.createElement('div');
-    wrap.className = 'col-wrap';
-
-    // Column number header
-    const numHdr = document.createElement('div');
-    numHdr.className = 'col-num';
-    numHdr.textContent = qi + 1;
-    wrap.appendChild(numHdr);
-
-    // Numbers
-    const numBlock = document.createElement('div');
-    numBlock.className = 'col-numbers';
-    col.forEach((n, ni) => {
-      const cell = document.createElement('div');
-      cell.className = 'num-cell' + (n < 0 ? ' negative' : '') + (ni === col.length - 1 ? ' last' : '');
-      cell.textContent = n < 0 ? '−' + Math.abs(n) : n;
-      numBlock.appendChild(cell);
-    });
-    wrap.appendChild(numBlock);
-
-    // Line
-    const line = document.createElement('div');
-    line.className = 'col-line';
-    wrap.appendChild(line);
-
-    // Answer input
-    const ansWrap = document.createElement('div');
-    ansWrap.className = 'ans-wrap';
-    const inp = document.createElement('input');
-    inp.className = 'ans-input';
-    inp.id = 'ans' + qi;
-    inp.type = 'number';
-    inp.placeholder = '?';
-    inp.autocomplete = 'off';
-    inp.addEventListener('input', updateInfoBar);
-    inp.addEventListener('keydown', e => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        const next = document.getElementById('ans' + (qi + 1));
-        if (next) next.focus(); else submitExam();
-      }
-    });
-    ansWrap.appendChild(inp);
-    wrap.appendChild(ansWrap);
-
-    grid.appendChild(wrap);
-  });
-
-  // Focus first input
-  setTimeout(() => document.getElementById('ans0')?.focus(), 150);
-}
-
-// ===== LIVE INFO BAR =====
-function updateInfoBar() {
-  let attempted = 0;
-  for (let i = 0; i < 20; i++) {
-    const v = document.getElementById('ans' + i)?.value;
-    if (v !== '' && v !== undefined && v !== null) attempted++;
-  }
-  document.getElementById('infoAttempted').textContent = attempted;
-  // Correct & marks only shown after submit
-}
-
-// ===== TIMER =====
-function startTimer() {
-  secondsLeft = 300;
-  updateTimerDisplay();
-  clearInterval(timerInterval);
-  timerInterval = setInterval(() => {
-    secondsLeft--;
-    updateTimerDisplay();
-    if (secondsLeft <= 0) { clearInterval(timerInterval); timeIsUp(); }
-  }, 1000);
-}
-
-function updateTimerDisplay() {
-  const m = Math.floor(secondsLeft / 60);
-  const s = secondsLeft % 60;
-  const box = document.getElementById('timerBox');
-  box.textContent = m + ':' + String(s).padStart(2, '0');
-  box.className = 'timer-box' + (secondsLeft <= 30 ? ' urgent' : '');
-}
-
-function timeIsUp() {
-  if (submitted) return;
-  // Disable all inputs
-  for (let i = 0; i < 20; i++) {
-    const inp = document.getElementById('ans' + i);
-    if (inp) inp.disabled = true;
-  }
-  document.getElementById('submitBtn').disabled = true;
-  const banner = document.getElementById('timeoutBanner');
-  banner.innerHTML = '<div class="timeout-banner">⏰ Time\'s Up! Submitting your paper…</div>';
-  setTimeout(() => submitExam(true), 1500);
-}
-
-// ===== SUBMIT =====
-function submitExam(fromTimeout) {
-  if (submitted) return;
-  submitted = true;
-  clearInterval(timerInterval);
-
-  // Disable all inputs
-  for (let i = 0; i < 20; i++) {
-    const inp = document.getElementById('ans' + i);
-    if (inp) inp.disabled = true;
-  }
-  document.getElementById('submitBtn').disabled = true;
-
-  let attempted = 0, correct = 0;
-  const results = [];
-
-  QUESTIONS.forEach((col, i) => {
-    const inp = document.getElementById('ans' + i);
-    const userVal = inp ? parseInt(inp.value) : NaN;
-    const isCorrect = !isNaN(userVal) && userVal === ANSWERS[i];
-    if (!isNaN(userVal) && inp.value !== '') attempted++;
-    if (isCorrect) correct++;
-
-    if (inp) inp.classList.add(isCorrect ? 'correct' : (inp.value !== '' ? 'wrong' : ''));
-    results.push({ col, answer: ANSWERS[i], userVal, correct: isCorrect });
-  });
-
-  const marks = correct * 2;
-  document.getElementById('infoAttempted').textContent = attempted;
-  document.getElementById('infoCorrect').textContent = correct;
-  document.getElementById('infoMarks').textContent = marks;
-
-  setTimeout(() => showResult(attempted, correct, marks, results), 800);
-}
-
-// ===== RESULT =====
-function showResult(attempted, correct, marks, results) {
-  document.getElementById('examScreen').style.display = 'none';
-  const rs = document.getElementById('resultScreen');
-  rs.style.display = 'block';
-
-  const pct = correct / 20;
-  let trophy = '🏆', title = 'Well Done!', stars = '⭐⭐⭐', msg = '';
-  if (pct === 1)       { trophy = '🥇'; title = 'PERFECT SCORE!'; stars = '🌟🌟🌟'; msg = 'Absolutely incredible, ' + playerName + '! Every answer correct!'; }
-  else if (pct >= 0.85){ trophy = '🏆'; title = 'Outstanding!';   stars = '⭐⭐⭐'; msg = 'Brilliant performance, ' + playerName + '! You\'re a true Prodigy!'; }
-  else if (pct >= 0.70){ trophy = '🥈'; title = 'Great Job!';     stars = '⭐⭐';   msg = 'Very good work, ' + playerName + '! Keep pushing for perfection!'; }
-  else if (pct >= 0.50){ trophy = '🥉'; title = 'Good Effort!';   stars = '⭐';     msg = 'Good try, ' + playerName + '! More practice will get you there!'; }
-  else                 { trophy = '📚'; title = 'Keep Practising!'; stars = '🌱';  msg = 'Don\'t give up, ' + playerName + '! Practice makes perfect!'; }
-
-  // Review table rows
-  let reviewRows = '';
-  results.forEach((r, i) => {
-    const numsStr = r.col.join(', ');
-    const yourAns = isNaN(r.userVal) || document.getElementById('ans'+i)?.value === '' ? '—' : r.userVal;
-    const cls = r.correct ? 'r-correct' : 'r-wrong';
-    const mark = r.correct ? '✅' : (yourAns === '—' ? '—' : '❌');
-    reviewRows += `<tr class="${cls}">
-      <td>${i+1}</td>
-      <td>${numsStr}</td>
-      <td>${r.answer}</td>
-      <td>${yourAns}</td>
-      <td class="mark-cell">${mark}</td>
-    </tr>`;
-  });
-
-  rs.innerHTML = `
-    <span class="result-trophy">${trophy}</span>
-    <div class="result-title">${title}</div>
-    <div class="result-name-tag">👤 ${playerName}${rollNo ? ' &nbsp;|&nbsp; Roll: ' + rollNo : ''} &nbsp;|&nbsp; ${level}</div>
-    <div class="score-grid">
-      <div class="score-cell">
-        <div class="sc-label">A. Attempted</div>
-        <div class="sc-val">${attempted}</div>
-      </div>
-      <div class="score-cell">
-        <div class="sc-label">B. Correct</div>
-        <div class="sc-val">${correct}</div>
-      </div>
-      <div class="score-cell highlight">
-        <div class="sc-label">C. Marks (B×2)</div>
-        <div class="sc-val">${marks}</div>
-      </div>
-    </div>
-    <div class="stars-row">${stars}</div>
-    <div class="result-msg">${msg}</div>
-
-    <p style="font-family:'Fredoka One',cursive;font-size:1.1rem;color:var(--navy);margin-bottom:12px;text-align:left;">📋 Answer Review</p>
-    <div style="overflow-x:auto;margin-bottom:24px;">
-      <table class="review-table">
-        <thead>
-          <tr>
-            <th>Q</th>
-            <th>Numbers</th>
-            <th>Answer</th>
-            <th>Your Answer</th>
-            <th>Result</th>
-          </tr>
-        </thead>
-        <tbody>${reviewRows}</tbody>
-      </table>
-    </div>
-    <button class="again-btn" onclick="tryAgain()">Try Again 🔄</button>
-  `;
-}
-
-// ===== TRY AGAIN =====
-function tryAgain() {
-  document.getElementById('resultScreen').style.display = 'none';
-  document.getElementById('nameScreen').style.display = 'block';
-  document.getElementById('nameInput').value = playerName;
-  document.getElementById('rollInput').value = rollNo;
-  submitted = false;
-  clearInterval(timerInterval);
-}
-
-// Enter on name screen
-document.getElementById('nameInput').addEventListener('keydown', e => {
-  if (e.key === 'Enter') {
-    document.getElementById('rollInput').focus();
-  }
-});
-document.getElementById('rollInput').addEventListener('keydown', e => {
-  if (e.key === 'Enter') startExam();
-});
+function tryAgain(){document.getElementById('resultScreen').style.display='none';document.getElementById('nameScreen').style.display='block';document.getElementById('nameInput').value=playerName;submitted=false;clearInterval(timerInterval);}
+document.getElementById('nameInput').addEventListener('keydown',e=>{if(e.key==='Enter')startExam();});
 </script>
 </body>
 </html>
